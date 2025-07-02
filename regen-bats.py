@@ -43,3 +43,6 @@ masks = [
 ]
 
 masks = [mask.replace('x', '?1') for mask in masks]
+
+for mask in masks:
+    print(mask)

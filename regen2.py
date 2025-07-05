@@ -33,8 +33,10 @@ def do_regen(total_bits_cnt, selector_bits):
                     cmd = f'rg "^{selector_bits}" {from_fn} '
                 bits_to_add_cnt = left_bits_cnt - base_lbc_cnt
                 
-                sed_bits = [f'\\1{bin(i)[2:].zfill(bits_to_add_cnt)}' for i in range(1<<bits_to_add_cnt)]
-                cmd += r" | sed -E 's/(.*)/" + '\\n'.join(sed_bits) + "/g'"
+                if bits_to_add_cnt > 0:
+                    sed_bits = [f'\\1{bin(i)[2:].zfill(bits_to_add_cnt)}' for i in range(1<<(bits_to_add_cnt))]
+                    # print(bits_to_add_cnt, sed_bits)
+                    cmd += r" | sed -E 's/(.*)/" + '\\n'.join(sed_bits) + "/g'"
 
                 cmd += f' > alts.{left_bits_cnt}.{selector_bits}.txt &'
 

@@ -1,4 +1,4 @@
-import sys, os.path, glob
+import sys, os.path, glob, re
 
 def get_filename(left_bits_cnt, rem_bits):
     if rem_bits == '':
@@ -43,18 +43,25 @@ def do_regen(total_bits_cnt, selector_bits):
                 print(cmd)
                 gave_gen = True
                 break
+            if gave_gen:
+                break
     
     return gave_gen
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        for fn in glob.glob('alts.*.*.txt'):
-            left_bits_cnt, rem_bits, _ = fn.split('.', maxsplit=3)[1:]
-            # if rem_bits is not a number, skip
-            if not rem_bits.isdigit():
-                continue
-            for next_bit in ['0', '1']:
-                do_regen(25 + int(left_bits_cnt), rem_bits + next_bit)
+        alt_files = []
+        for fn in glob.glob('run*.bat'):
+            with open(fn) as f:
+                alt_files += re.findall(r'alts\.(\d+)\.(\d+)\.txt', f.read())
+        alt_files = sorted(set(alt_files))
+        
+        for (lbc, prefix) in alt_files:
+            lbc_i = int(lbc)
+            print(lbc_i - len(prefix))
+            # do_regen(lbc_i+25, prefix)
+
+
     elif len(sys.argv) < 3:
         print('Usage: regen2.py [<total_bits_cnt> <selector_bits>]')
         sys.exit(1)

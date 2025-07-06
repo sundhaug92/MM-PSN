@@ -6,6 +6,8 @@ def main():
     model(known_bits)
 
 def model(known_bits):
+    print('Z0', known_bits.count('0'))
+    print('O1', known_bits.count('1'))
     s_kb = ''.join(sorted(known_bits))
     print(s_kb, len(s_kb))
     wins, losses = 0, 0

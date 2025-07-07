@@ -12,16 +12,22 @@ def do_regen(total_bits_cnt, selector_bits):
 
     left_bits_cnt = total_bits_cnt - 25
 
-    if os.path.exists(get_filename(left_bits_cnt, selector_bits)):
+    out_fn = get_filename(left_bits_cnt, selector_bits)
+    if os.path.exists(out_fn):
+        print(f'# {out_fn} already exists, skipping regeneration.')
         return True
 
     # print(f'LBC: {left_bits_cnt}')
 
     gave_gen = False
 
+
     for base_lbc_cnt in range(left_bits_cnt, 24, -1):
-        for rev_i in range(len(selector_bits) -1, -1, -1):
-            rem_bits = selector_bits[:rev_i]
+        # print(f'DEBUG: base_lbc_cnt={base_lbc_cnt}, left_bits_cnt={left_bits_cnt}, selector_bits={selector_bits}')
+        for rev_i in range(len(selector_bits) -1, -2, -1):
+            rem_bits = ''
+            if rev_i >= 0:
+                rem_bits = selector_bits[:rev_i]
 
             from_fn = get_filename(base_lbc_cnt, rem_bits)
             # print(f'Checking {from_fn} for {selector_bits}...')
@@ -38,14 +44,17 @@ def do_regen(total_bits_cnt, selector_bits):
                     # print(bits_to_add_cnt, sed_bits)
                     cmd += r" | sed -E 's/(.*)/" + '\\n'.join(sed_bits) + "/g'"
 
-                cmd += f' > alts.{left_bits_cnt}.{selector_bits}.txt &'
+                cmd += f' > {out_fn} &'
 
                 print(cmd)
                 gave_gen = True
                 break
             if gave_gen:
                 break
-    
+        if gave_gen:
+            break
+    if not gave_gen:
+        print(f'# Unable to generate {out_fn} from existing files.')
     return gave_gen
 
 if __name__ == '__main__':
@@ -58,8 +67,8 @@ if __name__ == '__main__':
         
         for (lbc, prefix) in alt_files:
             lbc_i = int(lbc)
-            print(lbc_i - len(prefix))
-            # do_regen(lbc_i+25, prefix)
+            # print(lbc_i - len(prefix))
+            do_regen(lbc_i+25, prefix)
 
 
     elif len(sys.argv) < 3:

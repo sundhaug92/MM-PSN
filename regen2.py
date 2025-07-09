@@ -8,7 +8,7 @@ def get_filename(left_bits_cnt, rem_bits):
 
 def do_regen(total_bits_cnt, selector_bits):
     if total_bits_cnt < 50:
-        raise ValueError('Not enough bits')
+        raise ValueError(f'Not enough bits {total_bits_cnt}')
 
     left_bits_cnt = total_bits_cnt - 25
 
@@ -61,15 +61,19 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         alt_files = []
         for fn in glob.glob('run*.bat'):
+        #for fn in glob.glob('run.bat'):
             with open(fn) as f:
-                alt_files += re.findall(r'alts\.(\d+)\.(\d+)\.txt', f.read())
+                f_txt = f.read()
+                alt_files += re.findall(r'alts\.(\d+)\.(\d+)\.txt', f_txt)
+                alt_files += re.findall(r'alts\.(\d+)\.txt', f_txt)
+        alt_files = [(af, '') if type(af) is str else af for af in alt_files]
         alt_files = sorted(set(alt_files))
         
+        # print(alt_files)
         for (lbc, prefix) in alt_files:
             lbc_i = int(lbc)
             # print(lbc_i - len(prefix))
             do_regen(lbc_i+25, prefix)
-
 
     elif len(sys.argv) < 3:
         print('Usage: regen2.py [<total_bits_cnt> <selector_bits>]')

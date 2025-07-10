@@ -60,8 +60,8 @@ def do_regen(total_bits_cnt, selector_bits):
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         alt_files = []
-        for fn in glob.glob('run*.bat'):
-        #for fn in glob.glob('run.bat'):
+        #for fn in glob.glob('run*.bat'):
+        for fn in glob.glob('run.bat'):
             with open(fn) as f:
                 f_txt = f.read()
                 alt_files += re.findall(r'alts\.(\d+)\.(\d+)\.txt', f_txt)

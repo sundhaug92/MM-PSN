@@ -1,6 +1,5 @@
 pushd C:\Users\Sundh\Desktop\pentest\hashcat-6.2.5\
 
-hashcat -m 1400 -a 1 --potfile-path C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\secrets2.pot 9c27fa6c8f083fa15efefa24ef8f6e346167456ccad1dd899465bc4d14e1f6b8 C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.32.100011001.txt C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.25.ew1.txt
 hashcat -m 1400 -a 1 --potfile-path C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\secrets2.pot 07255620c083425e365e53ec88bea05d9f13a27aed2e06b4b2582098dbf732af C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.33.011011000.txt C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.25.ew1.txt
 hashcat -m 1400 -a 1 --potfile-path C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\secrets2.pot 7bc5fcbcccdcdfe0dcdf5b91c9c1ea998acc38d04a70b2fda7d7bda3ed2a31db C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.34.001101101.txt C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.25.ew1.txt
 hashcat -m 1400 -a 1 --potfile-path C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\secrets2.pot abd417f5c5ebb5799cf341f0c90846820f6de483c97cb0541cc0e84b36807581 C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.35.011010111.txt C:\Users\Sundh\Desktop\dev\PeterSchmidtNielsen\alts.25.ew1.txt

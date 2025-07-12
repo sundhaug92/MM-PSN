@@ -14,4 +14,4 @@ with open('jobs.json') as f:
         if left_side_bits < min_left_side_bits:
             continue
 
-        print(f'python3 regen2.py $(({left_side_bits}+25)) {left_side_prefix}' + '{0..1}'*(left_side_bits - min_left_side_bits + 1))
+        print(f'python3 regen2.py $(({left_side_bits}+25)) {left_side_prefix}' + '{0..1}'*(left_side_bits - min_left_side_bits + 2))

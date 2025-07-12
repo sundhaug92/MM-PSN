@@ -1,39 +1,48 @@
 import sys
 
+def factorial(n):
+    r = 1
+    for i in range(1, n + 1):
+        r *= i
+    return r
+
+def binomial_coefficient(n, k):
+    if k > n or k < 0:
+        return 0
+    return factorial(n) / (factorial(k) * factorial(n - k))
+
+def binomial_distribution(n, k):
+    if k > n or k < 0:
+        return 0
+    return binomial_coefficient(n, k) / (2 ** n)
 
 def main():
     known_bits = sys.argv[1]
     model(known_bits)
 
 def model(known_bits):
-    print('Z0', known_bits.count('0'))
-    print('O1', known_bits.count('1'))
-    s_kb = ''.join(sorted(known_bits))
-    print(s_kb, len(s_kb))
-    wins, losses = 0, 0
+    length = 24+len(known_bits) -1 # 
+    missing = 64 - length
+    if missing < 0:
+        print("Error: known_bits length exceeds 64 bits.")
+        return
+    zeros = known_bits.count('0')
+    ones = known_bits.count('1')
+    print('LE', length)
+    print('MI', missing)
+    print('Z0', zeros)
+    print('O1', ones)
     
-    strings = []
-
-    for ones in range(66-24):
-        string_to_add = '1' * ones + '0' * (41 - ones)
-        string_to_add = ''.join(sorted(string_to_add[:41]))
-        # print(len(string_to_add), string_to_add)
-        strings.append(string_to_add)
-
-    print('S', len(strings))
-    print('S0', len(strings[0]))
-
-    relevant_strings = [s for s in strings if s_kb in s]
-
-    print('RS:', len(relevant_strings))
-
-    for rs in relevant_strings:
-        print(rs, rs.count('1'), rs.count('0'))
-
-    wins = len([rs for rs in relevant_strings if rs.count('1') > rs.count('0')])
-    losses = len([rs for rs in relevant_strings if rs.count('1') <= rs.count('0')])
-
-    print(f"Wins: {wins}, Losses: {losses}, WL = {wins + losses}, Win Rate: {100 * wins / (wins + losses) if (wins + losses) > 0 else 0:.2f}")
+    ones_to_add = 0
+    for i in range(missing + 1):
+        ones_to_add = i
+        zeros_to_add = missing - i
+        if ones_to_add + ones > zeros_to_add + zeros:
+            break
+    
+    # print(f'Adding {ones_to_add} in {missing}')
+    chance = sum([binomial_distribution(missing, _) for _ in range(ones_to_add, missing + 1)])
+    print(f'Chance of {ones_to_add} ones in {missing} bits: {100*chance:.2f}')
 
 
 if __name__ == "__main__":

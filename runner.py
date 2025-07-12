@@ -1,7 +1,7 @@
 import json, os, sys, time, subprocess
 
 def main():
-    with open('runner.log', 'w') as log_file:
+    with open('runner.log', 'a') as log_file:
         while True:
             j = None
             try:

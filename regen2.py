@@ -1,4 +1,4 @@
-import sys, os.path, glob, re
+import sys, os.path, json, re
 
 def get_filename(left_bits_cnt, rem_bits):
     if rem_bits == '':
@@ -24,7 +24,7 @@ def do_regen(total_bits_cnt, selector_bits):
 
     for base_lbc_cnt in range(left_bits_cnt, 24, -1):
         # print(f'DEBUG: base_lbc_cnt={base_lbc_cnt}, left_bits_cnt={left_bits_cnt}, selector_bits={selector_bits}')
-        for rev_i in range(len(selector_bits) -1, -2, -1):
+        for rev_i in range(len(selector_bits), -2, -1):
             rem_bits = ''
             if rev_i >= 0:
                 rem_bits = selector_bits[:rev_i]
@@ -60,12 +60,12 @@ def do_regen(total_bits_cnt, selector_bits):
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         alt_files = []
-        #for fn in glob.glob('run*.bat'):
-        for fn in glob.glob('run.bat'):
-            with open(fn) as f:
-                f_txt = f.read()
-                alt_files += re.findall(r'alts\.(\d+)\.(\d+)\.txt', f_txt)
-                alt_files += re.findall(r'alts\.(\d+)\.txt', f_txt)
+        with open('jobs.json') as f:
+            jobs = json.load(f)
+            for (digest, left, right) in jobs:
+                for text in (left, right):
+                    alt_files += re.findall(r'alts\.(\d+)\.(\d+)\.txt', text)
+                    alt_files += re.findall(r'alts\.(\d+)\.txt', text)
         alt_files = [(af, '') if type(af) is str else af for af in alt_files]
         alt_files = sorted(set(alt_files))
         
